@@ -1,38 +1,26 @@
-﻿namespace Module8
+﻿using System;
+using System.IO;
+namespace DriveManager
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-        }
+            // получим системные диски
+            DriveInfo[] drives = DriveInfo.GetDrives();
 
-        Dictionary<string, Folder> Folders = new Dictionary<string, Folder>();
-
-        public void CreateFolder(string name)
-        {
-            Folders.Add(name, new Folder());
-        }
-
-        public class Folder
-        {
-            public List<string> Files { get; set; } = new List<string>();
-        }
-
-        public class Drive
-        {
-            public Drive(string name, long totalSpace, long freeSpace)
+            // Пробежимся по дискам и выведем их свойства
+            foreach (DriveInfo drive in drives)
             {
-                Name = name;
-                TotalSpace = totalSpace;
-                FreeSpace = freeSpace;
+                Console.WriteLine($"Название: {drive.Name}");
+                Console.WriteLine($"Тип: {drive.DriveType}");
+                if (drive.IsReady)
+                {
+                    Console.WriteLine($"Объем: {drive.TotalSize}");
+                    Console.WriteLine($"Свободно: {drive.TotalFreeSpace}");
+                    Console.WriteLine($"Метка: {drive.VolumeLabel}");
+                }
             }
-
-            public string Name { get; }
-            public long TotalSpace { get; }
-            public long FreeSpace { get; }
         }
-
-
     }
 }
